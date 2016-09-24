@@ -1,0 +1,11 @@
+[Unit]
+Description=JohnnieWalkerCoin daemon serivce
+After=network.target
+
+[Service]
+Type=simple
+User=JohnnieWalkerCoin
+ExecStart=/opt/JohnnieWalkerCoin/JohnnieWalkerCoind
+
+[Install]
+WantedBy=multi-user.target

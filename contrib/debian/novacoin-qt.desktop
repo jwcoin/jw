@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=JohnnieWalkerCoin
+Comment=JohnnieWalkerCoin P2P Cryptocurrency
+Comment[ru]=JohnnieWalkerCoin, P2P криптовалюта
+Comment[fr]=JohnnieWalkerCoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=JohnnieWalkerCoin, eşten eşe kriptografik sanal para birimi
+Exec=/usr/bin/JohnnieWalkerCoin-qt
+Terminal=false
+Type=Application
+Icon=/usr/share/pixmaps/JohnnieWalkerCoin80.xpm
+MimeType=x-scheme-handler/JohnnieWalkerCoin;
+Categories=Office;

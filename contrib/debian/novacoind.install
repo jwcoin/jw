@@ -1,0 +1,2 @@
+debian/bin/JohnnieWalkerCoind usr/bin
+src/JohnnieWalkerCoind usr/lib/JohnnieWalkerCoin

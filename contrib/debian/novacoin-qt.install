@@ -1,0 +1,5 @@
+JohnnieWalkerCoin-qt usr/bin
+share/pixmaps/JohnnieWalkerCoin32.xpm usr/share/pixmaps
+share/pixmaps/JohnnieWalkerCoin80.xpm usr/share/pixmaps
+debian/JohnnieWalkerCoin-qt.desktop usr/share/applications
+debian/JohnnieWalkerCoin-qt.protocol usr/share/kde4/services/

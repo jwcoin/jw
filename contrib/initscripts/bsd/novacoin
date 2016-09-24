@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# PROVIDE: JohnnieWalkerCoin
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# JohnnieWalkerCoin_enable (bool): Set to NO by default. Set this variable to YES if you want to enable JohnnieWalkerCoin service.
+# JohnnieWalkerCoin_config (path): Set to /usr/local/etc/JohnnieWalkerCoin.conf by default.
+# JohnnieWalkerCoin_user:  The user account JohnnieWalkerCoin daemon runs as. It uses 'root' user by default.
+# JohnnieWalkerCoin_group: The group account JohnnieWalkerCoin daemon runs as. It uses 'wheel' group by default.
+# JohnnieWalkerCoin_datadir (str): Default to "/var/db/JohnnieWalkerCoin". Base data directory.
+
+. /etc/rc.subr
+
+name=JohnnieWalkerCoin
+rcvar=JohnnieWalkerCoin_enable
+
+: ${JohnnieWalkerCoin_enable:=NO}
+: ${JohnnieWalkerCoin_config=/usr/local/etc/JohnnieWalkerCoin.conf}
+: ${JohnnieWalkerCoin_datadir=/var/db/JohnnieWalkerCoin}
+: ${JohnnieWalkerCoin_user="root"}
+: ${JohnnieWalkerCoin_group="wheel"}
+
+required_files=${JohnnieWalkerCoin_config}
+command=/usr/local/bin/JohnnieWalkerCoind
+JohnnieWalkerCoin_chdir=${JohnnieWalkerCoin_datadir}
+pidfile="${JohnnieWalkerCoin_datadir}/JohnnieWalkerCoind.pid"
+stop_cmd=JohnnieWalkerCoin_stop
+command_args="-conf=${JohnnieWalkerCoin_config} -datadir=${JohnnieWalkerCoin_datadir} -daemon -pid=${pidfile}"
+start_precmd="${name}_prestart"
+
+JohnnieWalkerCoin_create_datadir()
+{
+	echo "Creating data directory"
+	eval mkdir -p ${JohnnieWalkerCoin_datadir}
+	[ $? -eq 0 ] && chown -R ${JohnnieWalkerCoin_user}:${JohnnieWalkerCoin_group} ${JohnnieWalkerCoin_datadir}
+}
+
+JohnnieWalkerCoin_prestart()
+{
+	if [ ! -d "${JohnnieWalkerCoin_datadir}/." ]; then
+		JohnnieWalkerCoin_create_datadir || return 1
+	fi
+}
+
+JohnnieWalkerCoin_requirepidfile()
+{
+	if [ ! "0`check_pidfile ${pidfile} ${command}`" -gt 1 ]; then
+		echo "${name} not running? (check $pidfile)."
+		exit 1
+	fi
+}
+
+JohnnieWalkerCoin_stop()
+{
+    JohnnieWalkerCoin_requirepidfile
+
+	echo "Stopping ${name}."
+	eval ${command} -conf=${JohnnieWalkerCoin_config} -datadir=${JohnnieWalkerCoin_datadir} stop
+	wait_for_pids ${rc_pid}
+}
+
+load_rc_config $name
+run_rc_command "$1"
